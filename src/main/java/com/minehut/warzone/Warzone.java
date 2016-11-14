@@ -6,6 +6,7 @@ import com.minehut.cloud.bukkit.subdata.SubDataModule;
 import com.minehut.warzone.chat.LocalizedChatMessage;
 import com.minehut.warzone.command.*;
 import com.minehut.warzone.module.modules.matchTimer.MatchTimer;
+import com.minehut.warzone.tabList.TabList;
 import com.minehut.warzone.util.DomUtil;
 import com.sk89q.bukkit.util.CommandsManagerRegistration;
 import com.sk89q.minecraft.util.commands.ChatColor;
@@ -45,6 +46,8 @@ public class Warzone extends JavaPlugin implements Listener {
     private static GameHandler gameHandler;
     private static LocaleHandler localeHandler;
     private CommandsManager<CommandSender> commands;
+
+    private TabList tabList;
 
     private UserManager userManager;
     private KitManager kitManager;
@@ -180,6 +183,9 @@ public class Warzone extends JavaPlugin implements Listener {
         deleteMatches();
         setupCommands();
 
+        this.tabList = new TabList();
+        Bukkit.getPluginManager().registerEvents(tabList, this);
+
         try {
             gameHandler = new GameHandler();
         } catch (RotationLoadException e) {
@@ -219,5 +225,9 @@ public class Warzone extends JavaPlugin implements Listener {
 
     public KitManager getKitManager() {
         return kitManager;
+    }
+
+    public TabList getTabList() {
+        return tabList;
     }
 }
