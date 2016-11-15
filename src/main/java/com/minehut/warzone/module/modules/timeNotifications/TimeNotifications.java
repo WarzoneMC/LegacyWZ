@@ -1,6 +1,8 @@
 package com.minehut.warzone.module.modules.timeNotifications;
 
 import com.minehut.warzone.chat.LocalizedChatMessage;
+import com.minehut.warzone.event.MatchEndEvent;
+import com.minehut.warzone.event.MatchStartEvent;
 import com.minehut.warzone.module.modules.matchTimer.MatchTimer;
 import com.minehut.warzone.GameHandler;
 import com.minehut.warzone.chat.ChatConstant;
@@ -9,77 +11,80 @@ import com.minehut.warzone.module.TaskedModule;
 import com.minehut.warzone.module.modules.timeLimit.TimeLimit;
 import com.minehut.warzone.util.ChatUtil;
 import com.minehut.warzone.util.Strings;
+import com.minehut.warzone.util.bossBar.BossBars;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.boss.BarColor;
+import org.bukkit.boss.BarStyle;
+import org.bukkit.event.EventHandler;
 import org.bukkit.event.HandlerList;
 
 public class TimeNotifications implements TaskedModule {
 
-    private static int nextTimeMessage;
+    public String bossBar;
+    private int lastSecond = 0;
 
     protected TimeNotifications() {
-        nextTimeMessage = TimeLimit.getMatchTimeLimit();
+        this.bossBar = BossBars.addBroadcastedBossBar(new UnlocalizedChatMessage(""), BarColor.GREEN, BarStyle.SOLID, false);
     }
 
-    public static void resetNextMessage() {
-        if (TimeLimit.getMatchTimeLimit() == 0) {
-            nextTimeMessage = (int) Math.round(MatchTimer.getTimeInSeconds());
-        } else {
-            nextTimeMessage = (int) Math.round(TimeLimit.getMatchTimeLimit() - MatchTimer.getTimeInSeconds());
+    public void changeTime(int timeLimit) {
+        if (GameHandler.getGameHandler().getMatch().isRunning()) {
+            lastSecond = 0;
+            BossBars.setVisible(bossBar, timeLimit > 0);
+            if (timeLimit <= 0) sendTimeElapsedMessage(MatchTimer.getTimeInSeconds());
         }
+    }
+
+    @EventHandler
+    public void onMatchStart(MatchStartEvent event) {
+        if (TimeLimit.getMatchTimeLimit() > 0) {
+            int timeRemaining = TimeLimit.getMatchTimeLimit();
+            BossBars.setTitle(bossBar, new UnlocalizedChatMessage(ChatColor.AQUA + "{0} " + ChatUtil.getTimerColor(timeRemaining) + "{1}", new LocalizedChatMessage(ChatConstant.UI_TIMER), new UnlocalizedChatMessage(Strings.formatTime(timeRemaining))));
+            BossBars.setVisible(bossBar, true);
+        }
+    }
+
+    @EventHandler
+    public void onMatchEnd(MatchEndEvent event) {
+        BossBars.removeBroadcastedBossBar(bossBar);
     }
 
     @Override
     public void unload() {
+        BossBars.removeBroadcastedBossBar(bossBar);
         HandlerList.unregisterAll(this);
     }
 
     @Override
     public void run() {
         if (GameHandler.getGameHandler().getMatch().isRunning()) {
+            int timeLimit = TimeLimit.getMatchTimeLimit();
             double time = MatchTimer.getTimeInSeconds();
-            double timeRemaining;
-            if (TimeLimit.getMatchTimeLimit() == 0) {
-                if (time >= nextTimeMessage) {
-//                    ChatUtil.getGlobalChannel().sendLocalizedMessage(new UnlocalizedChatMessage(ChatColor.AQUA + "{0}", new LocalizedChatMessage(ChatConstant.UI_TIME_ELAPSED, new UnlocalizedChatMessage(ChatColor.GREEN + Strings.formatTime(nextTimeMessage)))));
-                    Bukkit.broadcastMessage(ChatColor.AQUA + "Time Remaining: " + ChatColor.GREEN + Strings.formatTime(nextTimeMessage));
-                    nextTimeMessage += 300;
-                }
-                return;
-            }
-            timeRemaining = TimeLimit.getMatchTimeLimit() - time;
-            if (TimeLimit.getMatchTimeLimit() > 0) {
-                int timeLeft = ((TimeLimit.getMatchTimeLimit() - (int) MatchTimer.getTimeInSeconds()));
-                int percent = (int) ((100F * timeLeft) / TimeLimit.getMatchTimeLimit());
-                if (percent == 0) percent = 1;
-//                BossBar.sendGlobalBossBar(new UnlocalizedChatMessage(ChatColor.AQUA + "{0} " + ChatUtil.getTimerColor(timeRemaining) + "{1}", new LocalizedChatMessage(ChatConstant.UI_TIMER), new UnlocalizedChatMessage(Strings.formatTime(timeRemaining + 1))), percent);
-            }
-            if (nextTimeMessage >= timeRemaining) {
-                if (nextTimeMessage <= 5) {
-//                    ChatUtil.getGlobalChannel().sendLocalizedMessage(new UnlocalizedChatMessage(ChatColor.AQUA + "{0} " + ChatColor.DARK_RED + Strings.formatTime(nextTimeMessage), new LocalizedChatMessage(ChatConstant.UI_TIMER)));
-                    Bukkit.broadcastMessage(ChatColor.AQUA + "Time Remaining: " + ChatColor.DARK_RED + Strings.formatTime(nextTimeMessage));
-                    nextTimeMessage--;
-                } else if (nextTimeMessage <= 30) {
-//                    ChatUtil.getGlobalChannel().sendLocalizedMessage(new UnlocalizedChatMessage(ChatColor.AQUA + "{0} " + ChatColor.GOLD + Strings.formatTime(nextTimeMessage), new LocalizedChatMessage(ChatConstant.UI_TIMER)));
-                    Bukkit.broadcastMessage(ChatColor.AQUA + "Time Remaining: " + ChatColor.GOLD + Strings.formatTime(nextTimeMessage));
-                    nextTimeMessage -= 5;
-                } else if (nextTimeMessage <= 60) {
-//                    ChatUtil.getGlobalChannel().sendLocalizedMessage(new UnlocalizedChatMessage(ChatColor.AQUA + "{0} " + ChatColor.YELLOW + Strings.formatTime(nextTimeMessage), new LocalizedChatMessage(ChatConstant.UI_TIMER)));
-                    Bukkit.broadcastMessage(ChatColor.AQUA + "Time Remaining: " + ChatColor.YELLOW + Strings.formatTime(nextTimeMessage));
-                    nextTimeMessage -= 15;
-                } else {
-//                    ChatUtil.getGlobalChannel().sendLocalizedMessage(new UnlocalizedChatMessage(ChatColor.AQUA + "{0} " + ChatColor.GREEN + Strings.formatTime(nextTimeMessage), new LocalizedChatMessage(ChatConstant.UI_TIMER)));
-                    Bukkit.broadcastMessage(ChatColor.AQUA + "Time Remaining: " + ChatColor.GREEN + Strings.formatTime(nextTimeMessage));
-                    if ((nextTimeMessage / 60) % 5 == 0 && nextTimeMessage != 300) {
-                        nextTimeMessage -= 300;
-                    } else if (nextTimeMessage % 60 == 0 && nextTimeMessage <= 300) {
-                        nextTimeMessage -= 60;
+            if (timeLimit > 0) {
+                double timeRemaining = timeLimit - time;
+                BossBars.setProgress(bossBar, timeRemaining / timeLimit);
+                if (lastSecond != (int) time) {
+                    lastSecond = (int) time;
+                    BossBars.setTitle(bossBar, new UnlocalizedChatMessage(ChatColor.AQUA + "{0} " + ChatUtil.getTimerColor(timeRemaining) + "{1}", new LocalizedChatMessage(ChatConstant.UI_TIMER), new UnlocalizedChatMessage(Strings.formatTime(timeRemaining + 1))));
+                    if (timeRemaining < 30) {
+                        BossBars.broadcastedBossBars.get(bossBar).setColor(BarColor.RED);
+                    } else if (timeRemaining < 60) {
+                        BossBars.broadcastedBossBars.get(bossBar).setColor(BarColor.YELLOW);
                     } else {
-                        nextTimeMessage = (nextTimeMessage / 300) * 300;
+                        BossBars.broadcastedBossBars.get(bossBar).setColor(BarColor.GREEN);
                     }
                 }
+            } else if (lastSecond != (int) time) {
+                lastSecond = (int) time;
+                if ((int)time % 300 == 0) sendTimeElapsedMessage(time);
             }
         }
     }
+
+    private void sendTimeElapsedMessage(double time) {
+        ChatUtil.sendLocalizedMessage(new UnlocalizedChatMessage(ChatColor.AQUA + "{0}", new LocalizedChatMessage(ChatConstant.UI_TIME_ELAPSED, new UnlocalizedChatMessage(ChatColor.GREEN + Strings.formatTime(time)))));
+    }
+
 
 }

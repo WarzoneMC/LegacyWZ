@@ -8,6 +8,7 @@ import com.minehut.warzone.command.*;
 import com.minehut.warzone.module.modules.matchTimer.MatchTimer;
 import com.minehut.warzone.tabList.TabList;
 import com.minehut.warzone.util.DomUtil;
+import com.minehut.warzone.util.bossBar.BossBars;
 import com.sk89q.bukkit.util.CommandsManagerRegistration;
 import com.sk89q.minecraft.util.commands.ChatColor;
 import com.sk89q.minecraft.util.commands.CommandException;
@@ -185,6 +186,7 @@ public class Warzone extends JavaPlugin implements Listener {
 
         this.tabList = new TabList();
         Bukkit.getPluginManager().registerEvents(tabList, this);
+        Bukkit.getPluginManager().registerEvents(new BossBars(), this);
 
         try {
             gameHandler = new GameHandler();

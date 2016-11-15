@@ -33,7 +33,6 @@ public class StartTimer implements TaskedModule, Cancellable {
     private int time, originalTime;
     private Match match;
     private boolean cancelled, forced;
-
     private String bossBar;
     private String neededPlayers;
 
@@ -42,9 +41,15 @@ public class StartTimer implements TaskedModule, Cancellable {
         this.originalTime = ticks;
         this.match = match;
         this.cancelled = true;
-
         this.bossBar = BossBars.addBroadcastedBossBar(new UnlocalizedChatMessage(""), BarColor.GREEN, BarStyle.SOLID, false);
         this.neededPlayers = BossBars.addBroadcastedBossBar(new UnlocalizedChatMessage(""), BarColor.RED, BarStyle.SOLID, false);
+    }
+
+    @Override
+    public void unload() {
+        BossBars.removeBroadcastedBossBar(bossBar);
+        BossBars.removeBroadcastedBossBar(neededPlayers);
+        HandlerList.unregisterAll(this);
     }
 
     @Override
@@ -115,6 +120,10 @@ public class StartTimer implements TaskedModule, Cancellable {
         this.cancelled = isCancelled;
         if (this.cancelled && GameHandler.getGameHandler().getMatch().getState().equals(MatchState.STARTING)) {
             GameHandler.getGameHandler().getMatch().setState(MatchState.WAITING);
+            BossBars.setVisible(bossBar, false);
+        } else {
+            BossBars.setVisible(bossBar, true);
+            if (time >= 20) ChatUtil.sendLocalizedMessage(getStartTimerMessage((time / 20)));
         }
     }
 
@@ -122,7 +131,6 @@ public class StartTimer implements TaskedModule, Cancellable {
     public void onPlayerChangeTeam(PlayerChangeTeamEvent event) {
         updateNeededPlayers(neededPlayers() > 0);
     }
-
 
     public void setTime(int time) {
         this.time = time;
@@ -135,6 +143,10 @@ public class StartTimer implements TaskedModule, Cancellable {
 
     public void setForced(boolean forced) {
         this.forced = forced;
+    }
+
+    private static ChatMessage getStartTimerMessage(int time) {
+        return new UnlocalizedChatMessage(ChatColor.GREEN + "{0}", new LocalizedChatMessage(ChatConstant.UI_MATCH_STARTING_IN, new LocalizedChatMessage(time == 1 ? ChatConstant.UI_SECOND : ChatConstant.UI_SECONDS, ChatColor.RED + "" + time + ChatColor.GREEN)));
     }
 
     public int neededPlayers(){
@@ -156,22 +168,7 @@ public class StartTimer implements TaskedModule, Cancellable {
                 team = teams;
             }
         }
-        if (neededPlayers() == 1) {
-            return new UnlocalizedChatMessage(ChatColor.RED + "{0}", new LocalizedChatMessage(ChatConstant.UI_WAITING_PLAYER, ChatColor.AQUA + "" + neededPlayers() + ChatColor.RED, count == 1 ? team.getCompleteName() : ""));
-        } else {
-            return new UnlocalizedChatMessage(ChatColor.RED + "{0}", new LocalizedChatMessage(ChatConstant.UI_WAITING_PLAYERS, ChatColor.AQUA + "" + neededPlayers() + ChatColor.RED, count == 1 ? team.getCompleteName() : ""));
-        }
-    }
-
-    private static ChatMessage getStartTimerMessage(int time) {
-        return new UnlocalizedChatMessage(ChatColor.GREEN + "{0}", new LocalizedChatMessage(ChatConstant.UI_MATCH_STARTING_IN, new LocalizedChatMessage(time == 1 ? ChatConstant.UI_SECOND : ChatConstant.UI_SECONDS, ChatColor.DARK_RED + "" + time + ChatColor.GREEN)));
-    }
-
-    @Override
-    public void unload() {
-        BossBars.removeBroadcastedBossBar(bossBar);
-        BossBars.removeBroadcastedBossBar(neededPlayers);
-        HandlerList.unregisterAll(this);
+        return new UnlocalizedChatMessage(ChatColor.RED + "{0}", new LocalizedChatMessage(neededPlayers() == 1 ? ChatConstant.UI_WAITING_PLAYER : ChatConstant.UI_WAITING_PLAYERS, ChatColor.AQUA + "" + neededPlayers() + ChatColor.RED, count == 1 ? team.getCompleteName() : ""));
     }
 
 }
