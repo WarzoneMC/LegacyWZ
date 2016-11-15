@@ -49,7 +49,7 @@ public class DemomanAbility extends Ability {
 				ArrayList<Block> toRemove = new ArrayList<>();
 
     			for(Block b : e.blockList()) {
-    				if(b.getType() == Material.WOOD || b.getType() == Material.COBBLESTONE_STAIRS || b.getType() == Material.WOOD_STAIRS){
+    				if(b.getType() == Material.WOOD || b.getType() == Material.LOG || b.getType() == Material.LOG_2 || b.getType() == Material.COBBLESTONE_STAIRS || b.getType() == Material.WOOD_STAIRS){
 
 						/*
     					 * Wood (throws 1/4 in air)

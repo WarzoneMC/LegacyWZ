@@ -3,6 +3,7 @@ package com.minehut.warzone.module;
 import com.minehut.warzone.match.Match;
 import com.minehut.warzone.module.gameModules.GameModuleBuilder;
 import com.minehut.warzone.module.modules.buildHeight.BuildHeightBuilder;
+import com.minehut.warzone.module.modules.cannon.CannonModuleBuilder;
 import com.minehut.warzone.module.modules.chat.ChatModuleBuilder;
 import com.minehut.warzone.module.modules.deathTracker.DeathTrackerBuilder;
 import com.minehut.warzone.module.modules.doubleKillPatch.DoubleKillPatchBuilder;
@@ -113,7 +114,8 @@ public class ModuleFactory {
                 InvisibleBlockBuilder.class,
                 GuiKeepModuleBuilder.class,
                 CraftModuleBuilder.class,
-                GameModuleBuilder.class
+                GameModuleBuilder.class,
+                CannonModuleBuilder.class
         ));
     }
 
