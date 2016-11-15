@@ -41,7 +41,7 @@ public class TimeNotifications implements TaskedModule {
         if (TimeLimit.getMatchTimeLimit() > 0) {
             int timeRemaining = TimeLimit.getMatchTimeLimit();
             BossBars.setTitle(bossBar, new UnlocalizedChatMessage(ChatColor.AQUA + "{0} " + ChatUtil.getTimerColor(timeRemaining) + "{1}", new LocalizedChatMessage(ChatConstant.UI_TIMER), new UnlocalizedChatMessage(Strings.formatTime(timeRemaining))));
-            BossBars.setVisible(bossBar, true);
+//            BossBars.setVisible(bossBar, true);
         }
     }
 
