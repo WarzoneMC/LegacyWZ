@@ -1,13 +1,13 @@
 package com.minehut.warzone.module.modules.teamPicker;
 
 import com.google.common.base.Optional;
-import com.minehut.warzone.chat.LocalizedChatMessage;
-import com.minehut.warzone.module.modules.team.TeamModule;
-import com.minehut.warzone.util.Items;
 import com.minehut.warzone.GameHandler;
 import com.minehut.warzone.chat.ChatConstant;
+import com.minehut.warzone.chat.LocalizedChatMessage;
 import com.minehut.warzone.match.MatchState;
 import com.minehut.warzone.module.Module;
+import com.minehut.warzone.module.modules.team.TeamModule;
+import com.minehut.warzone.util.Items;
 import com.minehut.warzone.util.MiscUtil;
 import com.minehut.warzone.util.Teams;
 import org.bukkit.Bukkit;

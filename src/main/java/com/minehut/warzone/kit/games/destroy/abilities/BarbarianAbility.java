@@ -50,7 +50,7 @@ public class BarbarianAbility extends Ability {
             if (this.players.contains(damageInfo.getDamagerPlayer())) {
                 this.players.remove(damageInfo.getDamagerPlayer());
                 event.setDamage(event.getDamage() + 2);
-                ParticleEffect.LAVA.display(.2f, .1f, .2f, 1f, 20, damageInfo.getHurtEntity().getEyeLocation(), 15);
+                ParticleEffect.FIREWORKS_SPARK.display(.2f, .1f, .2f, 1f, 20, damageInfo.getHurtEntity().getEyeLocation(), 15);
                 S.playSound(damageInfo.getDamagerPlayer(), Sound.ENTITY_SKELETON_HURT);
                 damageInfo.getDamagerPlayer().getInventory().setItem(this.slot, super.itemStack);
             }

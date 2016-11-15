@@ -6,11 +6,14 @@ import com.minehut.warzone.chat.LocalizedChatMessage;
 import com.minehut.warzone.chat.UnlocalizedChatMessage;
 import com.minehut.warzone.event.PlayerAttemptChangeTeamEvent;
 import com.minehut.warzone.event.PlayerChangeTeamEvent;
+import com.minehut.warzone.event.PlayerNameUpdateEvent;
 import com.minehut.warzone.match.Match;
 import com.minehut.warzone.module.Module;
 import com.minehut.warzone.util.Teams;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.craftbukkit.v1_10_R1.entity.CraftPlayer;
+import org.bukkit.craftbukkit.v1_10_R1.util.CraftChatMessage;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -63,6 +66,10 @@ public class TeamModule<P extends Player> extends ArrayList<Player> implements M
             }
         }
 
+        player.setPlayerListName(this.color + player.getName());
+        player.setDisplayName(this.color + player.getName());
+        Bukkit.getPluginManager().callEvent(new PlayerNameUpdateEvent(player));
+
         if(!cancel || this.isObserver()) {
             PlayerChangeTeamEvent event = new PlayerChangeTeamEvent(player, force, Optional.<TeamModule>of(this), oldTeam);
             Bukkit.getServer().getPluginManager().callEvent(event);
@@ -73,6 +80,7 @@ public class TeamModule<P extends Player> extends ArrayList<Player> implements M
             }
             return !event.isCancelled() || force;
         }
+
         return true;
     }
 

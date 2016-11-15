@@ -228,11 +228,11 @@ public class RespawnModule implements Module {
     public void giveObserversKit(Player player) {
         player.getInventory().setItem(0, Items.createItem(Material.COMPASS, 1, (short) 0, ChatColor.BLUE + "" + ChatColor.BOLD + ChatConstant.UI_COMPASS.getMessage(player.spigot().getLocale())));
         if (!GameHandler.getGameHandler().getMatch().getState().equals(MatchState.ENDED)) {
-            player.getInventory().setItem(1, Items.createItem(Material.LEATHER_HELMET, 1, (short) 0,
+            player.getInventory().setItem(2, Items.createItem(Material.LEATHER_HELMET, 1, (short) 0,
                     ChatColor.GREEN + "" + ChatColor.BOLD + (ChatConstant.UI_TEAM_SELECTION.getMessage(player.spigot().getLocale())),
                     Collections.singletonList(ChatColor.DARK_PURPLE + ChatConstant.UI_TEAM_JOIN_TIP.getMessage(player.spigot().getLocale()))));
         }
-        player.getInventory().setItem(8, ItemFactory.createItem(Material.EMERALD, ChatColor.GREEN.toString() + ChatColor.BOLD + "KITS"));
+        player.getInventory().setItem(3, ItemFactory.createItem(Material.EMERALD, ChatColor.GREEN.toString() + ChatColor.BOLD + "KITS"));
     }
 
     @EventHandler

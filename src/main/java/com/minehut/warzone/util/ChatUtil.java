@@ -1,6 +1,8 @@
 package com.minehut.warzone.util;
 
 import com.minehut.warzone.chat.ChatMessage;
+import net.md_5.bungee.api.chat.BaseComponent;
+import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
@@ -9,6 +11,14 @@ import org.bukkit.entity.Player;
 import java.util.Locale;
 
 public class ChatUtil {
+
+    public static BaseComponent baseComponentFromArray(BaseComponent[] array) {
+        BaseComponent result = new TextComponent("");
+        for (BaseComponent component : array) {
+            result.addExtra(component);
+        }
+        return result;
+    }
 
     public static void sendWarningMessage(Player player, String msg) {
         if (msg != null) player.sendMessage(ChatColor.YELLOW + " \u26A0 " + ChatColor.RED + msg);

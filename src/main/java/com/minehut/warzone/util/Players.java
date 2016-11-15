@@ -3,9 +3,7 @@ package com.minehut.warzone.util;
 import com.google.common.collect.Queues;
 import com.minehut.warzone.module.modules.team.TeamModule;
 import com.minehut.warzone.module.modules.permissions.PermissionModule;
-import org.bukkit.ChatColor;
-import org.bukkit.Material;
-import org.bukkit.OfflinePlayer;
+import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Creature;
 import org.bukkit.entity.Entity;
@@ -96,10 +94,44 @@ public class Players {
         return nearest;
     }
 
+    public static void playSoundEffect(Player player, Location loc, Sound sound, float volume, float pitch) {
+        player.playSound(loc, sound, volume, pitch);
+    }
+
+    public static void playSoundEffect(Player player, Sound sound, float volume, float pitch) {
+        playSoundEffect(player, player.getLocation(), sound, volume, pitch);
+    }
+
     public static boolean isLookingAt(Player player, Entity entity, double accuracy) {
         Vector toEntity = entity.getLocation().toVector().subtract(player.getLocation().toVector());
         Vector direction = player.getEyeLocation().getDirection();
         return toEntity.normalize().dot(direction) <= accuracy;
+    }
+
+    public static void broadcastSoundEffect(Location loc, Sound sound, float volume, float pitch) {
+        for (Player player : Bukkit.getOnlinePlayers()) {
+            playSoundEffect(player, loc, sound, volume, pitch);
+        }
+    }
+
+    public static void broadcastSoundEffect(Sound sound, float volume, float pitch) {
+        for (Player player : Bukkit.getOnlinePlayers()) {
+            playSoundEffect(player, sound, volume, pitch);
+        }
+    }
+
+    public static void broadcastSoundEffect(TeamModule team, Location loc, Sound sound, float volume, float pitch) {
+        if (team == null) return;
+        for (Player player : Bukkit.getOnlinePlayers()) {
+            if (team.contains(player)) playSoundEffect(player, loc, sound, volume, pitch);
+        }
+    }
+
+    public static void broadcastSoundEffect(TeamModule team, Sound sound, float volume, float pitch) {
+        if (team == null) return;
+        for (Player player : Bukkit.getOnlinePlayers()) {
+            if (team.contains(player)) playSoundEffect(player, sound, volume, pitch);
+        }
     }
 
 }

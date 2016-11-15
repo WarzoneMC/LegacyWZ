@@ -22,17 +22,19 @@ public class PlayerTabEntry extends SkinTabEntry {
     private String getDisplayName() {
         // The method is broken, removes black color, https://hub.spigotmc.org/jira/browse/SPIGOT-2711
         //return player.getPlayerListName();
+//        if (((CraftPlayer) player).getHandle().listName != null) {
+//            return ((CraftPlayer) player).getHandle().listName.getText();
+//        } else {
+//            return ChatColor.AQUA + player.getName();
+//        }
 
-        return Teams.getTeamByPlayer(player).get().getColor() + player.getName();
-//        return player.getName();
-//        return CraftChatMessage.fromComponent(((CraftPlayer) player).getHandle().listName, EnumChatFormat.WHITE);
+        return player.getPlayerListName();
+
     }
 
     public String getDisplayName(Player viewer) {
-        if(viewer == player) return Teams.getTeamByPlayer(player).get().getColor() + ChatColor.BOLD.toString() + player.getName();
-        return Teams.getTeamByPlayer(player).get().getColor() + player.getName();
-//        if (viewer == player) return getDisplayName().replace(viewer.getName(), ChatColor.BOLD + viewer.getName());
-//        return getDisplayName();
+        if (viewer == player) return getDisplayName().replace(viewer.getName(), ChatColor.BOLD + viewer.getName());
+        return getDisplayName();
     }
 
     public int getPing() {
