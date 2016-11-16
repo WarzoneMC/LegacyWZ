@@ -6,16 +6,21 @@ import com.minehut.warzone.module.modules.scoreboard.ScoreboardModule;
 import com.minehut.warzone.module.modules.team.TeamModule;
 import com.minehut.warzone.GameHandler;
 import com.minehut.warzone.module.Module;
+import com.minehut.warzone.tnt.TntTracker;
 import com.minehut.warzone.util.Teams;
+import org.bukkit.Bukkit;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Projectile;
+import org.bukkit.entity.TNTPrimed;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.HandlerList;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.PotionSplashEvent;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
+
+import java.util.UUID;
 
 public class FriendlyFire implements Module {
 
@@ -38,6 +43,23 @@ public class FriendlyFire implements Module {
     public void onEntityDamageEvent(EntityDamageByEntityEvent event) {
         if (event.getDamager() instanceof Projectile && ((Projectile) event.getDamager()).getShooter() == event.getEntity()){
             event.setCancelled(true);
+            return;
+        }
+
+        if (event.getEntity() instanceof Player) {
+            Player hurt = (Player) event.getEntity();
+
+            if (event.getDamager() instanceof TNTPrimed) {
+                UUID uuid = TntTracker.getWhoPlaced(event.getDamager());
+                if (uuid != null) {
+                    Player attacker = Bukkit.getPlayer(uuid);
+                    if (attacker != null) {
+                        if (Teams.getTeamByPlayer(hurt).get().contains(attacker)) {
+                            event.setCancelled(true);
+                        }
+                    }
+                }
+            }
         }
     }
 
