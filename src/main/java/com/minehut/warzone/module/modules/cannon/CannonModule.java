@@ -24,9 +24,8 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.HandlerList;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.entity.EntityExplodeEvent;
-import org.bukkit.event.player.PlayerInteractAtEntityEvent;
-import org.bukkit.event.player.PlayerInteractEvent;
-import org.bukkit.event.player.PlayerMoveEvent;
+import org.bukkit.event.entity.PlayerDeathEvent;
+import org.bukkit.event.player.*;
 import org.bukkit.util.Vector;
 import org.spigotmc.event.entity.EntityDismountEvent;
 import org.spigotmc.event.entity.EntityMountEvent;
@@ -194,5 +193,27 @@ public class CannonModule implements Module {
         }
     }
 
+    @EventHandler
+    public void onQuit(PlayerQuitEvent event) {
+        if (this.player != null && this.player == event.getPlayer()) {
+            this.player.eject();
+            this.player = null;
+        }
+    }
+
+    @EventHandler
+    public void onQuit(PlayerKickEvent event) {
+        if (this.player != null && this.player == event.getPlayer()) {
+            this.player.eject();
+            this.player = null;
+        }
+    }
+
+    @EventHandler
+    public void onDeath(PlayerDeathEvent event) {
+        if (this.player != null && event.getEntity() == this.player) {
+            this.player.eject();
+        }
+    }
 
 }
