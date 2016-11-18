@@ -43,15 +43,17 @@ public class CannonModule implements Module {
     private Minecart minecart;
 
     private Player player;
+    private float range = 1;
     private long lastFire = 0;
     private int fireRate; //ticks
 
     private ArrayList<TNTPrimed> tnts = new ArrayList<>();
     private int guiRunnable;
 
-    protected CannonModule(BlockRegion blockRegion, int fireRate) {
+    protected CannonModule(BlockRegion blockRegion, int fireRate, float range) {
         this.blockRegion = blockRegion;
         this.fireRate = fireRate * 20;
+        this.range = range;
     }
 
     @Override
@@ -148,7 +150,7 @@ public class CannonModule implements Module {
                             double yV = .4 + (1 - .4) * r.nextDouble();
                             double zV = -1.1 + (1.5 - -1.1) * r.nextDouble();
 
-                            fb.setVelocity(new Vector(xV,yV,zV));
+                            fb.setVelocity(new Vector(xV,yV,zV).multiply(range));
                         }else{
                             toRemove.add(b);
                         }
@@ -172,6 +174,12 @@ public class CannonModule implements Module {
     public void onEnter(EntityMountEvent event) {
         if (event.getMount() == this.minecart) {
             if (event.getEntity() instanceof Player) {
+
+                if (Teams.isObserver((Player) event.getEntity())) {
+                    event.setCancelled(true);
+                    return;
+                }
+
                 player = (Player) event.getEntity();
             } else {
                 event.setCancelled(true);

@@ -31,7 +31,12 @@ public class CannonModuleBuilder implements ModuleBuilder {
                     fireRate = json.get("fireRate").getAsInt();
                 }
 
-                modules.add(new CannonModule(blockRegion, fireRate));
+                float range = 1;
+                if (json.has("range")) {
+                    range = json.get("range").getAsFloat();
+                }
+
+                modules.add(new CannonModule(blockRegion, fireRate, range));
             }
         }
 
