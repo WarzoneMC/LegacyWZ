@@ -188,7 +188,7 @@ public class RespawnModule implements Module {
             if (!event.getNewTeam().isPresent() || !(event.getNewTeam().get().isObserver() && event.getOldTeam().isPresent() && event.getOldTeam().get().isObserver())) {
 
                 if (event.getOldTeam().isPresent() && event.getOldTeam().get().isObserver()) {
-                    event.getPlayer().setMaxHealth(20);
+//                    event.getPlayer().setMaxHealth(20); //todo: kept crashing server. look into fix.
                     Players.resetPlayer(event.getPlayer());
                     Optional<TeamModule> teamModule = event.getNewTeam();
                     ModuleCollection<SpawnModule> modules = new ModuleCollection<SpawnModule>();

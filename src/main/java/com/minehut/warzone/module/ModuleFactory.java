@@ -12,6 +12,7 @@ import com.minehut.warzone.module.modules.hunger.HungerBuilder;
 import com.minehut.warzone.module.modules.match.MatchModuleBuilder;
 import com.minehut.warzone.module.modules.matchTimer.MatchTimerBuilder;
 import com.minehut.warzone.module.modules.motd.MOTDBuilder;
+import com.minehut.warzone.module.modules.oldPvP.OldPvPModuleBuilder;
 import com.minehut.warzone.module.modules.permissions.PermissionModuleBuilder;
 import com.minehut.warzone.module.modules.playable.PlayableBuilder;
 import com.minehut.warzone.module.modules.snowflakes.SnowflakesBuilder;
@@ -115,7 +116,8 @@ public class ModuleFactory {
                 GuiKeepModuleBuilder.class,
                 CraftModuleBuilder.class,
                 GameModuleBuilder.class,
-                CannonModuleBuilder.class
+                CannonModuleBuilder.class,
+                OldPvPModuleBuilder.class
         ));
     }
 
