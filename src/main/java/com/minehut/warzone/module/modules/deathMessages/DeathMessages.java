@@ -133,22 +133,22 @@ public class DeathMessages implements Module {
                     if (involved || GameHandler.getGameHandler().getMatch().getGameType() == GameType.ELIMINATION) {
 //                        if (Settings.getSettingByName("HighlightDeathMessages").getValueByPlayer(player).getValue().equalsIgnoreCase("bold")) {
                             String message = deathMessage;
-                            boolean bold = false;
-                            boolean color = false;
-                            for (int i = 0; i < message.length(); i++) {
-                                if (message.charAt(i) == '§') {
-                                    color = true;
-                                } else {
-                                    if (bold) {
-                                        message = message.substring(0, i) + ChatColor.BOLD + message.substring(i);
-                                        bold = false;
-                                    }
-                                    if (color) {
-                                        color = false;
-                                        bold = false; //use to be true
-                                    }
-                                }
-                            }
+//                            boolean bold = false;
+//                            boolean color = false;
+//                            for (int i = 0; i < message.length(); i++) {
+//                                if (message.charAt(i) == '§') {
+//                                    color = true;
+//                                } else {
+//                                    if (bold) {
+//                                        message = message.substring(0, i) + ChatColor.BOLD + message.substring(i);
+//                                        bold = false;
+//                                    }
+//                                    if (color) {
+//                                        color = false;
+//                                        bold = false; //use to be true
+//                                    }
+//                                }
+//                            }
                             toSend = new UnlocalizedChatMessage(message);
 //                        }
 //                        if (Settings.getSettingByName("HighlightDeathMessages").getValueByPlayer(player).getValue().equalsIgnoreCase("italics")) {
