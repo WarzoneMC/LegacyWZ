@@ -1,6 +1,5 @@
 package com.minehut.warzone.module.modules.wools;
 
-import com.minehut.cloud.core.Cloud;
 import com.minehut.warzone.Warzone;
 import com.minehut.warzone.chat.ChatConstant;
 import com.minehut.warzone.chat.LocalizedChatMessage;
@@ -112,7 +111,7 @@ public class WoolCoreObjective implements GameObjective {
                         WarzoneUser user = Warzone.getInstance().getUserManager().getUser(event.getPlayer());
                         MatchUser matchUser = Warzone.getInstance().getUserManager().getMatchUser(event.getPlayer());
 
-                        Cloud.getInstance().getPlayerManager().addCoins(user.getPlayer().getName(), COINS_DESTROY, "Destroy a Wool", true);
+                        Warzone.getInstance().getUserManager().addCoins(user.getPlayer().getName(), COINS_DESTROY, "Destroy a Wool", true);
 
                         matchUser.addCoinsEarned(COINS_DESTROY);
 

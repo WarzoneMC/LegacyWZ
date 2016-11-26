@@ -1,6 +1,6 @@
 package com.minehut.warzone.util;
 
-import com.minehut.cloud.bukkit.util.itemstack.ItemFactory;
+import com.minehut.warzone.util.itemstack.ItemFactory;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 

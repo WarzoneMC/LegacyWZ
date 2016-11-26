@@ -1,6 +1,6 @@
 package com.minehut.warzone.event;
 
-import com.minehut.cloud.bukkit.util.MongoPlayer;
+import com.minehut.warzone.user.MongoPlayer;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 

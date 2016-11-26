@@ -1,13 +1,10 @@
 package com.minehut.warzone.module.modules.chat;
 
-import com.minehut.cloud.bukkit.CloudBukkit;
-import com.minehut.cloud.core.Cloud;
-import com.minehut.cloud.core.players.data.NetworkPlayer;
-import com.minehut.cloud.core.players.data.Rank;
 import com.minehut.warzone.Warzone;
 import com.minehut.warzone.module.Module;
 import com.minehut.warzone.module.modules.team.TeamModule;
 import com.minehut.warzone.user.WarzoneUser;
+import com.minehut.warzone.user.event.WarzoneUserChatEvent;
 import com.minehut.warzone.util.Teams;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -57,34 +54,21 @@ public class ChatModule implements Module {
     }
 
     public void sendMessage(Player player, String channel, boolean teamOnly, String message) {
-        WarzoneUser warzoneUser = Warzone.getInstance().getUserManager().getUser(player);
-        NetworkPlayer networkPlayer = Cloud.getInstance().getPlayerManager().getNetworkPlayer(player.getName());
         TeamModule teamModule = Teams.getTeamByPlayer(player).get();
 
-        if (Cloud.getInstance().getPunishManager().isMuted(networkPlayer, true)) {
-            return;
-        }
-
-        if (!CloudBukkit.getInstance().getChatFilter().attemptMessage(player, message)) {
-            return;
-        }
+        WarzoneUserChatEvent chatEvent = new WarzoneUserChatEvent(player, message);
+        String formattedName = chatEvent.getPrefix() + player.getName();
 
         String s;
         if (teamOnly) {
-            s = teamModule.getColor() + "[TEAM CHAT] " + Rank.getFormattedName(networkPlayer)
+            s = teamModule.getColor() + "[TEAM CHAT] " + formattedName
                     + ChatColor.WHITE + ": ";
         } else {
-            s = teamModule.getColor() + "[" + String.valueOf(teamModule.getName().charAt(0)) + "] " + Rank.getFormattedName(networkPlayer)
+            s = teamModule.getColor() + "[" + String.valueOf(teamModule.getName().charAt(0)) + "] " + formattedName
                     + ChatColor.WHITE + ": ";
         }
 
-//        if (channel != null && !channel.equalsIgnoreCase("")) {
-//            s += channel + " " + ChatColor.WHITE;
-//        } else {
-//            s += ChatColor.WHITE;
-//        }
         s += ChatColor.WHITE;
-
         s += message;
 
         if (teamOnly) {
@@ -102,6 +86,9 @@ public class ChatModule implements Module {
                 other.sendMessage(s);
             }
         }
+
+        //Allow the console to see the messages.
+        System.out.println(s);
     }
 
     public void setChannel(Player player, String channel) {

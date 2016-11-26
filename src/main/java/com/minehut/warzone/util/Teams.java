@@ -1,7 +1,6 @@
 package com.minehut.warzone.util;
 
 import com.google.common.base.Optional;
-import com.minehut.cloud.bukkit.util.MongoPlayer;
 import com.minehut.warzone.match.Match;
 import com.minehut.warzone.module.GameObjective;
 import com.minehut.warzone.module.ModuleCollection;
@@ -9,6 +8,7 @@ import com.minehut.warzone.module.modules.team.TeamModule;
 import com.minehut.warzone.GameHandler;
 import com.minehut.warzone.module.modules.wools.WoolCoreObjective;
 import com.minehut.warzone.module.modules.wools.WoolObjective;
+import com.minehut.warzone.user.MongoPlayer;
 import org.bukkit.ChatColor;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;

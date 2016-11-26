@@ -1,13 +1,13 @@
 package com.minehut.warzone.kit.games.destroy.abilities;
 
-import com.minehut.cloud.bukkit.util.chat.S;
-import com.minehut.cloud.bukkit.util.damage.DamageInfo;
-import com.minehut.cloud.bukkit.util.itemstack.EnchantGlow;
-import com.minehut.cloud.bukkit.util.itemstack.ItemFactory;
-import com.minehut.cloud.bukkit.util.particles.ParticleEffect;
-import com.minehut.cloud.core.util.ChatColor;
+import com.minehut.warzone.util.chat.S;
+import com.minehut.warzone.util.damage.DamageInfo;
+import com.minehut.warzone.util.itemstack.EnchantGlow;
+import com.minehut.warzone.util.itemstack.ItemFactory;
 import com.minehut.warzone.kit.Ability;
 import com.minehut.warzone.kit.Kit;
+import com.minehut.warzone.util.particles.ParticleEffect;
+import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;

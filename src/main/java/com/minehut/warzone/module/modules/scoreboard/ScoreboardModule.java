@@ -1,13 +1,13 @@
 package com.minehut.warzone.module.modules.scoreboard;
 
-import com.minehut.cloud.bukkit.util.damage.DamageInfo;
-import com.minehut.cloud.bukkit.util.scoreboard.SimpleScoreboard;
 import com.minehut.warzone.Warzone;
 import com.minehut.warzone.GameHandler;
 import com.minehut.warzone.event.PlayerChangeTeamEvent;
 import com.minehut.warzone.module.Module;
 import com.minehut.warzone.module.modules.team.TeamModule;
 import com.minehut.warzone.util.Teams;
+import com.minehut.warzone.util.damage.DamageInfo;
+import com.minehut.warzone.util.scoreboard.SimpleScoreboard;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;

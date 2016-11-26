@@ -18,6 +18,7 @@ import com.minehut.warzone.module.modules.team.TeamModule;
 import com.minehut.warzone.user.WarzoneUser;
 import com.minehut.warzone.util.Teams;
 import com.minehut.warzone.util.chat.S;
+import com.minehut.warzone.util.itemstack.EnchantGlow;
 import com.minehut.warzone.util.itemstack.ItemFactory;
 import com.minehut.warzone.util.page.ConfirmPage;
 import com.mongodb.BasicDBObject;
@@ -183,7 +184,7 @@ public class KitManager implements Listener {
                     //purchase
                     if (user.hasEnoughCoins(kit.getCost())) {
                         new ConfirmPage(Warzone.getInstance(), player, () -> {
-                            Cloud.getInstance().getPlayerManager().addCoins(player.getName(), -kit.getCost(), "Purchased " + kit.getName(), true);
+                            Warzone.getInstance().getUserManager().addCoins(player.getName(), -kit.getCost(), "Purchased " + kit.getName(), true);
 
                             final String kitId = getIdFromKit(kit);
                             user.getKits().add(kitId);

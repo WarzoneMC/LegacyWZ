@@ -1,10 +1,8 @@
 package com.minehut.warzone.module.modules.stats;
 
-import com.minehut.cloud.bukkit.util.MongoPlayer;
-import com.minehut.cloud.core.Cloud;
-import com.minehut.cloud.core.util.ChatColor;
-import com.minehut.cloud.core.util.Messages;
+import com.minehut.warzone.user.MongoPlayer;
 import com.minehut.warzone.user.WarzoneUser;
+import com.minehut.warzone.util.Messages;
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBCollection;
 import com.mongodb.DBObject;
@@ -21,6 +19,7 @@ import com.minehut.warzone.module.modules.team.TeamModule;
 import com.minehut.warzone.user.MatchUser;
 import com.minehut.warzone.util.Teams;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -39,7 +38,7 @@ public class StatsModule implements Module {
     private ArrayList<KillStat> killStats = new ArrayList<>();
 
     protected StatsModule() {
-        this.killsCollection = Cloud.getInstance().getDb().getCollection("warzone_kills");
+        this.killsCollection = Warzone.getInstance().getDb().getCollection("warzone_kills");
     }
 
     public void insertKillStats() {
@@ -75,7 +74,7 @@ public class StatsModule implements Module {
             dead.setTotalDeaths(dead.getTotalDeaths() + 1);
             deadMatchUser.setDeaths(deadMatchUser.getDeaths() + 1);
 
-            Cloud.getInstance().getPlayerManager().addCoins(killer.getPlayer().getName(), COINS_KILL, "Killed " + event.getPlayer().getName(), true);
+            Warzone.getInstance().getUserManager().addCoins(killer.getPlayer().getName(), COINS_KILL, "Killed " + event.getPlayer().getName(), true);
             killerMatchUser.addCoinsEarned(COINS_KILL);
 
             killer.setXp(killer.getXp() + XP_KILL);
@@ -141,7 +140,7 @@ public class StatsModule implements Module {
 
                                     user.setTotalWins(user.getTotalWins() + 1);
 
-                                    Cloud.getInstance().getPlayerManager().addCoins(user.getPlayer().getName(), COINS_WIN, "Win the Game", false);
+                                    Warzone.getInstance().getUserManager().addCoins(user.getPlayer().getName(), COINS_WIN, "Win the Game", false);
                                     matchUser.addCoinsEarned(COINS_WIN);
 
                                     user.setXp(user.getXp() + 10);

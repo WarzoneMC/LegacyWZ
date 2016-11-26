@@ -1,7 +1,5 @@
 package com.minehut.warzone.module.gameModules.blitz;
 
-import com.minehut.cloud.bukkit.util.scoreboard.SimpleScoreboard;
-import com.minehut.cloud.core.util.ChatColor;
 import com.minehut.warzone.GameHandler;
 import com.minehut.warzone.Warzone;
 import com.minehut.warzone.event.CardinalDeathEvent;
@@ -10,7 +8,9 @@ import com.minehut.warzone.match.MatchState;
 import com.minehut.warzone.module.modules.scoreboard.ScoreboardUpdater;
 import com.minehut.warzone.module.modules.team.TeamModule;
 import com.minehut.warzone.util.Teams;
+import com.minehut.warzone.util.scoreboard.SimpleScoreboard;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.player.PlayerKickEvent;

@@ -1,6 +1,6 @@
 package com.minehut.warzone.kit.games.destroy.kits;
 
-import com.minehut.cloud.bukkit.util.itemstack.ItemFactory;
+import com.minehut.warzone.util.itemstack.ItemFactory;
 import com.minehut.warzone.kit.Kit;
 import com.minehut.warzone.kit.games.destroy.abilities.SeekingArcherAbility;
 import com.minehut.warzone.util.SlotType;

@@ -1,6 +1,6 @@
 package com.minehut.warzone.kit.games.infected.infected.abilities;
 
-import com.minehut.cloud.bukkit.util.itemstack.ItemFactory;
+import com.minehut.warzone.util.itemstack.ItemFactory;
 import com.minehut.warzone.kit.Ability;
 import com.minehut.warzone.kit.Kit;
 import com.minehut.warzone.module.modules.team.TeamModule;

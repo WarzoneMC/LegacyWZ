@@ -1,6 +1,6 @@
 package com.minehut.warzone.kit.games.blitz.kits;
 
-import com.minehut.cloud.bukkit.util.itemstack.ItemFactory;
+import com.minehut.warzone.util.itemstack.ItemFactory;
 import com.minehut.warzone.kit.Kit;
 import com.minehut.warzone.kit.games.destroy.abilities.BarbarianAbility;
 import com.minehut.warzone.util.SlotType;

@@ -2,10 +2,10 @@ package com.minehut.warzone.rotation;
 
 import com.google.common.collect.Lists;
 import com.google.gson.JsonObject;
-import com.minehut.cloud.bukkit.util.json.JsonUtil;
 import com.minehut.warzone.Warzone;
 import com.minehut.warzone.rotation.exception.RotationLoadException;
 import com.minehut.warzone.util.Contributor;
+import com.minehut.warzone.util.json.JsonUtil;
 import org.apache.commons.io.Charsets;
 import org.bukkit.Bukkit;
 import org.jdom2.Document;

@@ -1,9 +1,6 @@
 package com.minehut.warzone.command;
 
-import com.minehut.cloud.core.Cloud;
-import com.minehut.cloud.core.players.data.NetworkPlayer;
-import com.minehut.cloud.core.util.ChatColor;
-import com.minehut.cloud.core.util.MongoUtils;
+import org.bukkit.ChatColor;
 import com.minehut.warzone.user.WarzoneUser;
 import com.mongodb.BasicDBObject;
 import com.sk89q.minecraft.util.commands.Command;
@@ -16,14 +13,15 @@ import org.bukkit.entity.Player;
 
 public class CoinsCommand {
 
-    @Command(aliases = {"coins", "bal"}, desc = "View your coins.")
+    @Command(aliases = {"coins", "bal", "money", "coin"}, desc = "View your coins.")
     public static void say(final CommandContext cmd, CommandSender sender) throws CommandException {
 
         if (cmd.argsLength() == 0) {
             Player player = (Player) sender;
 
-            NetworkPlayer networkPlayer = Cloud.getInstance().getPlayerManager().getNetworkPlayer(player.getName());
-            player.sendMessage(ChatColor.GOLD + "You have " + ChatColor.GREEN + networkPlayer.getCoins() + ChatColor.GOLD + " coins.");
+            WarzoneUser warzoneUser = Warzone.getInstance().getUserManager().getUser(player);
+            player.sendMessage(ChatColor.GOLD + "You have " + ChatColor.GREEN + warzoneUser.getCoins() + ChatColor.GOLD + " coins.");
+
         }
 
         else if (cmd.argsLength() == 3) {
@@ -42,7 +40,7 @@ public class CoinsCommand {
                     msg = null;
                 }
 
-                Cloud.getInstance().getPlayerManager().addCoins(target, amount, msg, true);
+                Warzone.getInstance().getUserManager().addCoins(target, amount, msg, true);
 
                 sender.sendMessage(ChatColor.GOLD + "You gave " + ChatColor.AQUA + target + " " + ChatColor.GOLD + amount + " coins");
             }

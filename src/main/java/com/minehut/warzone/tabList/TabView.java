@@ -1,10 +1,6 @@
 package com.minehut.warzone.tabList;
 
 import com.google.common.collect.Lists;
-import com.minehut.cloud.core.Cloud;
-import com.minehut.cloud.core.players.data.NetworkPlayer;
-import com.minehut.cloud.core.players.data.Rank;
-import com.minehut.warzone.module.modules.permissions.PermissionModule;
 import com.minehut.warzone.module.modules.team.TeamModule;
 import com.minehut.warzone.tabList.entries.EmptyTabEntry;
 import com.minehut.warzone.tabList.entries.SkinTabEntry;
@@ -204,10 +200,7 @@ public class TabView {
                     UUID uuid1 = player1.getUniqueId();
                     UUID uuid2 = player2.getUniqueId();
 
-                    NetworkPlayer networkPlayer1 = Cloud.getInstance().getPlayerManager().getNetworkPlayer(player1.getName());
-                    NetworkPlayer networkPlayer2 = Cloud.getInstance().getPlayerManager().getNetworkPlayer(player2.getName());
-
-                    boolean dev1 = networkPlayer1.isStaff(), dev2 = networkPlayer2.isStaff();
+                    boolean dev1 = player1.hasPermission("minehut.staff"), dev2 = player2.hasPermission("minehut.staff");
                     if (dev1 ^ dev2) return dev1 ? -1 : 0;
 
                     return player1.getName().compareTo(player2.getName());

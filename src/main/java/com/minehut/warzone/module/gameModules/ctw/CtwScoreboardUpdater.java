@@ -1,7 +1,5 @@
 package com.minehut.warzone.module.gameModules.ctw;
 
-import com.minehut.cloud.bukkit.util.scoreboard.SimpleScoreboard;
-import com.minehut.cloud.core.util.ChatColor;
 import com.minehut.warzone.event.objective.ObjectiveCompleteEvent;
 import com.minehut.warzone.event.objective.ObjectiveTouchEvent;
 import com.minehut.warzone.module.modules.wools.WoolObjective;
@@ -10,7 +8,9 @@ import com.minehut.warzone.module.modules.team.TeamModule;
 import com.minehut.warzone.util.Teams;
 import com.minehut.warzone.GameHandler;
 import com.minehut.warzone.util.MiscUtil;
+import com.minehut.warzone.util.scoreboard.SimpleScoreboard;
 import org.apache.commons.lang.StringUtils;
+import org.bukkit.ChatColor;
 import org.bukkit.event.EventHandler;
 
 import java.util.HashMap;

@@ -1,7 +1,7 @@
 package com.minehut.warzone.module.modules.stats;
 
-import com.minehut.cloud.bukkit.util.MongoPlayer;
 import com.minehut.warzone.Warzone;
+import com.minehut.warzone.user.MongoPlayer;
 import com.minehut.warzone.user.WarzoneUser;
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBObject;

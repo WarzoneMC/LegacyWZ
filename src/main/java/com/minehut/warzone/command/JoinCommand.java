@@ -1,10 +1,10 @@
 package com.minehut.warzone.command;
 
 import com.google.common.base.Optional;
-import com.minehut.cloud.bukkit.util.chat.S;
 import com.minehut.warzone.chat.LocalizedChatMessage;
 import com.minehut.warzone.module.modules.teamPicker.TeamPicker;
 import com.minehut.warzone.module.modules.team.TeamModule;
+import com.minehut.warzone.util.chat.S;
 import com.sk89q.minecraft.util.commands.Command;
 import com.sk89q.minecraft.util.commands.CommandContext;
 import com.sk89q.minecraft.util.commands.CommandException;

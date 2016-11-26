@@ -1,6 +1,6 @@
 package com.minehut.warzone.kit.games.tdm.kits;
 
-import com.minehut.cloud.bukkit.util.itemstack.ItemFactory;
+import com.minehut.warzone.util.itemstack.ItemFactory;
 import com.minehut.warzone.kit.Kit;
 import com.minehut.warzone.kit.KitManager;
 import com.minehut.warzone.util.SlotType;

@@ -1,7 +1,7 @@
 package com.minehut.warzone.tnt;
 
-import com.minehut.cloud.bukkit.util.damage.DamageInfo;
 import com.minehut.warzone.Warzone;
+import com.minehut.warzone.util.damage.DamageInfo;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;

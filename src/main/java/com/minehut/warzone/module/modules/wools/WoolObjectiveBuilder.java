@@ -3,7 +3,6 @@ package com.minehut.warzone.module.modules.wools;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-import com.minehut.cloud.core.util.ChatColor;
 import com.minehut.warzone.match.Match;
 import com.minehut.warzone.module.BuilderData;
 import com.minehut.warzone.module.ModuleCollection;
@@ -20,6 +19,7 @@ import com.minehut.warzone.util.Teams;
 import com.minehut.warzone.util.VectorUtil;
 import com.minehut.warzone.module.ModuleBuilder;
 import com.minehut.warzone.module.modules.regions.RegionModule;
+import org.bukkit.ChatColor;
 import org.bukkit.DyeColor;
 import org.bukkit.util.Vector;
 

@@ -1,8 +1,8 @@
 package com.minehut.warzone.kit.games.destroy.abilities;
 
-import com.minehut.cloud.bukkit.util.LocationUtils;
-import com.minehut.cloud.bukkit.util.chat.S;
-import com.minehut.cloud.bukkit.util.itemstack.ItemFactory;
+import com.minehut.warzone.util.LocationUtils;
+import com.minehut.warzone.util.chat.S;
+import com.minehut.warzone.util.itemstack.ItemFactory;
 import com.minehut.warzone.kit.Ability;
 import com.minehut.warzone.kit.Kit;
 import com.minehut.warzone.util.Teams;

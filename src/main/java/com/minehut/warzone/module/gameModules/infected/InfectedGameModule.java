@@ -1,9 +1,5 @@
 package com.minehut.warzone.module.gameModules.infected;
 
-import com.minehut.cloud.bukkit.util.player.PlayerUtils;
-import com.minehut.cloud.bukkit.util.titleAPI.TitleAPI;
-import com.minehut.cloud.core.util.ChatColor;
-import com.minehut.cloud.core.util.Messages;
 import com.minehut.warzone.event.*;
 import com.minehut.warzone.kit.Kit;
 import com.minehut.warzone.module.modules.stats.StatsModule;
@@ -15,8 +11,12 @@ import com.minehut.warzone.kit.KitManager;
 import com.minehut.warzone.module.Module;
 import com.minehut.warzone.module.modules.teamPicker.TeamPicker;
 import com.minehut.warzone.util.ChatUtil;
+import com.minehut.warzone.util.Messages;
+import com.minehut.warzone.util.Players;
 import com.minehut.warzone.util.Teams;
+import com.minehut.warzone.util.titleAPI.TitleAPI;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -102,7 +102,7 @@ public class InfectedGameModule implements Module {
     @EventHandler(priority = EventPriority.LOW)
     public void onDeath(PlayerDeathEvent event) {
         if (event.getEntity() != null && humans.contains(event.getEntity())) {
-            PlayerUtils.resetPlayer(event.getEntity()); //cancels the death event
+            Players.resetPlayer(event.getEntity()); //cancels the death event
             infected.add(event.getEntity(), true);
 
             WarzoneUser deadUser = Warzone.getInstance().getUserManager().getUser(event.getEntity());

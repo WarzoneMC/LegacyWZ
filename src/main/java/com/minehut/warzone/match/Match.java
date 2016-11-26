@@ -2,8 +2,6 @@ package com.minehut.warzone.match;
 
 import com.google.common.base.Optional;
 import com.google.gson.JsonObject;
-import com.minehut.cloud.bukkit.util.json.JsonUtil;
-import com.minehut.cloud.core.Cloud;
 import com.minehut.warzone.event.MatchEndEvent;
 import com.minehut.warzone.module.ModuleCollection;
 import com.minehut.warzone.module.modules.team.TeamModule;
@@ -13,6 +11,7 @@ import com.minehut.warzone.module.Module;
 import com.minehut.warzone.module.ModuleLoadTime;
 import com.minehut.warzone.module.modules.startTimer.StartTimer;
 import com.minehut.warzone.rotation.LoadedMap;
+import com.minehut.warzone.util.json.JsonUtil;
 import com.mongodb.DBCollection;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -52,7 +51,7 @@ public class Match {
             gameType = GameType.DTW;
         }
 
-        this.gameCollection = Cloud.getInstance().getDb().getCollection("warzone_" + gameType.toString().toLowerCase() + "_stats");
+        this.gameCollection = Warzone.getInstance().getDb().getCollection("warzone_" + gameType.toString().toLowerCase() + "_stats");
     }
 
     public void registerModules() {

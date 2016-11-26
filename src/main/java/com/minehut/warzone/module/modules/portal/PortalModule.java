@@ -1,11 +1,11 @@
 package com.minehut.warzone.module.modules.portal;
 
 import com.google.gson.JsonObject;
-import com.minehut.cloud.bukkit.util.chat.S;
 import com.minehut.warzone.module.Module;
 import com.minehut.warzone.module.modules.team.TeamModule;
 import com.minehut.warzone.util.Teams;
 import com.minehut.warzone.module.modules.regions.RegionModule;
+import com.minehut.warzone.util.chat.S;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;

@@ -1,7 +1,6 @@
 package com.minehut.warzone.module.modules.itemDrop;
 
 import com.google.common.base.Optional;
-import com.minehut.cloud.bukkit.util.itemstack.ItemFactory;
 import com.minehut.warzone.module.modules.team.TeamModule;
 import com.minehut.warzone.Warzone;
 import com.minehut.warzone.GameHandler;
@@ -9,6 +8,7 @@ import com.minehut.warzone.event.PlayerChangeTeamEvent;
 import com.minehut.warzone.match.GameType;
 import com.minehut.warzone.module.Module;
 import com.minehut.warzone.util.Teams;
+import com.minehut.warzone.util.itemstack.ItemFactory;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Item;

@@ -1,7 +1,7 @@
 package com.minehut.warzone.module.modules.scoreboard;
 
-import com.minehut.cloud.bukkit.util.scoreboard.SimpleScoreboard;
 import com.minehut.warzone.module.modules.team.TeamModule;
+import com.minehut.warzone.util.scoreboard.SimpleScoreboard;
 import org.bukkit.event.Listener;
 
 /**

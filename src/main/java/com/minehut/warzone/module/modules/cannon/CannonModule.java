@@ -1,8 +1,5 @@
 package com.minehut.warzone.module.modules.cannon;
 
-import com.google.gson.JsonObject;
-import com.minehut.cloud.bukkit.util.chat.S;
-import com.minehut.cloud.core.util.ChatColor;
 import com.minehut.warzone.GameHandler;
 import com.minehut.warzone.Warzone;
 import com.minehut.warzone.event.CycleCompleteEvent;
@@ -14,10 +11,7 @@ import com.minehut.warzone.module.modules.team.TeamModule;
 import com.minehut.warzone.tnt.TntTracker;
 import com.minehut.warzone.util.Teams;
 import net.md_5.bungee.api.chat.TextComponent;
-import org.bukkit.Bukkit;
-import org.bukkit.Location;
-import org.bukkit.Material;
-import org.bukkit.Sound;
+import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;

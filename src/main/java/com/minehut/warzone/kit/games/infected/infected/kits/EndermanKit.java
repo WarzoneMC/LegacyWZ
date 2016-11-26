@@ -1,6 +1,6 @@
 package com.minehut.warzone.kit.games.infected.infected.kits;
 
-import com.minehut.cloud.bukkit.util.itemstack.ItemFactory;
+import com.minehut.warzone.util.itemstack.ItemFactory;
 import com.minehut.warzone.kit.Kit;
 import com.minehut.warzone.kit.games.infected.infected.abilities.EndermanAbility;
 import com.minehut.warzone.util.SlotType;

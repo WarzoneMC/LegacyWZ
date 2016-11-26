@@ -1,7 +1,6 @@
 package com.minehut.warzone.module.modules.respawn;
 
 import com.google.common.base.Optional;
-import com.minehut.cloud.bukkit.util.itemstack.ItemFactory;
 import com.minehut.warzone.Warzone;
 import com.minehut.warzone.chat.ChatConstant;
 import com.minehut.warzone.event.CardinalSpawnEvent;
@@ -18,6 +17,7 @@ import com.minehut.warzone.GameHandler;
 import com.minehut.warzone.match.MatchState;
 import com.minehut.warzone.module.Module;
 import com.minehut.warzone.module.modules.spawn.SpawnModule;
+import com.minehut.warzone.util.itemstack.ItemFactory;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
