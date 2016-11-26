@@ -60,7 +60,7 @@
         <dependency>
             <groupId>nocheatplus</groupId>
             <artifactId>nocheatplus</artifactId>
-            <version>1.10.0</version>
+            <version>1.11.0-20161126.180456-1</version>
         </dependency>
 
         <!-- http://mvnrepository.com/artifact/org.mongodb/mongo-java-driver -->
