@@ -4,6 +4,9 @@ Minehut's Warzone plugin supports thousands of unique players on a weekly basis.
 ## Setup
 Just run `mvn clean install` inside of the directory to build the project. We used Intellij to develop this plugin and strongly urge you too as well!
 
+## Code Style
+We follow Google's [Java Style Guide](http://google.github.io/styleguide/javaguide.html). All contributions should follow these guidelines. 
+
 ## Things to note
 1. Dev environments are currently not supported. I'l be adding an easy way to setup a test server soon.
 
