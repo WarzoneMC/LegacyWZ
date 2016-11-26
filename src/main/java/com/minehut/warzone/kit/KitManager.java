@@ -1,12 +1,6 @@
 package com.minehut.warzone.kit;
 
 import com.google.common.base.Optional;
-import com.minehut.cloud.bukkit.util.chat.S;
-import com.minehut.cloud.bukkit.util.itemstack.EnchantGlow;
-import com.minehut.cloud.bukkit.util.itemstack.ItemFactory;
-import com.minehut.cloud.bukkit.util.page.ConfirmPage;
-import com.minehut.cloud.core.Cloud;
-import com.minehut.cloud.core.players.data.NetworkPlayer;
 import com.minehut.warzone.Warzone;
 import com.minehut.warzone.GameHandler;
 import com.minehut.warzone.event.CardinalSpawnEvent;
@@ -23,9 +17,12 @@ import com.minehut.warzone.match.GameType;
 import com.minehut.warzone.module.modules.team.TeamModule;
 import com.minehut.warzone.user.WarzoneUser;
 import com.minehut.warzone.util.Teams;
+import com.minehut.warzone.util.chat.S;
+import com.minehut.warzone.util.itemstack.ItemFactory;
+import com.minehut.warzone.util.page.ConfirmPage;
 import com.mongodb.BasicDBObject;
-import com.sk89q.minecraft.util.commands.ChatColor;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
@@ -177,7 +174,6 @@ public class KitManager implements Listener {
                 }
 
                 final WarzoneUser user = Warzone.getInstance().getUserManager().getUser(player);
-                NetworkPlayer networkPlayer = Cloud.getInstance().getPlayerManager().getNetworkPlayer(player.getName());
                 if (kit.getCost() <= 0 || hasKit(user, kit)) {
                     user.setSelectedKit(getIdFromKit(kit));
                     player.sendMessage(ChatColor.WHITE + "You have selected " + ChatColor.GOLD.toString() + kit.getName());
@@ -185,7 +181,7 @@ public class KitManager implements Listener {
                     player.closeInventory();
                 } else {
                     //purchase
-                    if (networkPlayer.hasEnoughCoins(kit.getCost())) {
+                    if (user.hasEnoughCoins(kit.getCost())) {
                         new ConfirmPage(Warzone.getInstance(), player, () -> {
                             Cloud.getInstance().getPlayerManager().addCoins(player.getName(), -kit.getCost(), "Purchased " + kit.getName(), true);
 
@@ -217,7 +213,7 @@ public class KitManager implements Listener {
                         ChatColor.RED.toString() + "No! I don't want to buy " + ChatColor.AQUA + ChatColor.BOLD.toString() + kit.getName()
                         );
                     } else {
-                        player.sendMessage(ChatColor.RED.toString() + "You need " + Math.abs(networkPlayer.getCoins() - kit.getCost()) + " more coins for this.");
+                        player.sendMessage(ChatColor.RED.toString() + "You need " + Math.abs(user.getCoins() - kit.getCost()) + " more coins for this.");
                         S.playSound(player, Sound.ENTITY_VILLAGER_NO);
                         return;
                     }

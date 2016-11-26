@@ -1,16 +1,14 @@
 package com.minehut.warzone.user;
 
-import com.minehut.cloud.bukkit.subdata.AsyncSubPlayerDbSyncEvent;
-import com.minehut.cloud.bukkit.subdata.SubRank;
-import com.minehut.cloud.core.Cloud;
-import com.minehut.cloud.core.players.data.NetworkPlayer;
 import com.minehut.warzone.GameHandler;
 import com.minehut.warzone.Warzone;
+import com.minehut.warzone.util.MongoUtils;
 import com.mongodb.BasicDBList;
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBCollection;
 import com.mongodb.DBObject;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -22,6 +20,8 @@ import org.bukkit.event.player.PlayerQuitEvent;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Timer;
+import java.util.TimerTask;
 
 /**
  * Created by luke on 2/24/16.
@@ -30,8 +30,11 @@ public class UserManager implements Listener {
     private ArrayList<WarzoneUser> users = new ArrayList<>();
     private ArrayList<MatchUser> matchUsers = new ArrayList<>();
 
+    private DBCollection globalUserCollection;
+
     public UserManager() {
         Warzone.getInstance().getServer().getPluginManager().registerEvents(this, Warzone.getInstance());
+        this.globalUserCollection = Warzone.getInstance().getDb().getCollection("warzone_users");
     }
 
     @EventHandler(priority = EventPriority.LOWEST)
@@ -66,7 +69,31 @@ public class UserManager implements Listener {
             public void run() {
                 DBObject query = new BasicDBObject("uuid", event.getPlayer().getUniqueId().toString());
 
+                DBObject globalDoc = globalUserCollection.findOne(query);
                 DBObject gameDoc = GameHandler.getGameHandler().getMatch().getGameCollection().findOne(query);
+
+                if (globalDoc != null) {
+                    if (globalDoc.get("coins") != null) {
+                        user.setCoins((Integer) globalDoc.get("coins"));
+                    }
+
+                    if (gameDoc.get("xp") != null) {
+                        user.setXp(user.getXp() + (int) gameDoc.get("xp"));
+                    }
+
+                    if (!gameDoc.get("name").equals(event.getPlayer().getName())) {
+                        GameHandler.getGameHandler().getMatch().getGameCollection().update(query, new BasicDBObject("$set", new BasicDBObject("name", event.getPlayer().getName())));
+                    }
+                } else {
+                    DBObject doc = new BasicDBObject("uuid", event.getPlayer().getUniqueId().toString());
+
+                    doc.put("name", event.getPlayer().getName());
+
+                    doc.put("initial_join_date", new Date());
+                    doc.put("last_online_date", new Date());
+
+                    globalUserCollection.insert(doc);
+                }
 
                 if(gameDoc != null) {
 
@@ -99,10 +126,6 @@ public class UserManager implements Listener {
 
                     if (gameDoc.get("deaths") != null) {
                         user.setTotalDeaths(user.getTotalDeaths() + (int) gameDoc.get("deaths"));
-                    }
-
-                    if (gameDoc.get("xp") != null) {
-                        user.setXp(user.getXp() + (int) gameDoc.get("xp"));
                     }
 
                     if (gameDoc.get("longest_snipe") != null) {
@@ -153,12 +176,19 @@ public class UserManager implements Listener {
     }
 
     public WarzoneUser getUser(Player player) {
+        if(player == null) return null;
+
         for (WarzoneUser user : this.users) {
             if (user.getPlayer() == player) {
                 return user;
             }
         }
         return null;
+    }
+
+    public WarzoneUser getUser(String name) {
+        Player player = Bukkit.getPlayer(name);
+        return getUser(player);
     }
 
     public MatchUser getMatchUser(Player player) {
@@ -176,5 +206,49 @@ public class UserManager implements Listener {
 
     public ArrayList<MatchUser> getMatchUsers() {
         return matchUsers;
+    }
+
+    public void addCoins(String name, int amount, String message, boolean async) {
+
+
+        if (message != null) {
+            Player player = Bukkit.getPlayer(name);
+            if (player != null) {
+                if (amount >= 0) {
+                    player.sendMessage(ChatColor.GREEN + "+" + amount + " coins" +
+                            ChatColor.WHITE + ChatColor.DARK_PURPLE.toString() + " | " + ChatColor.RESET
+                            + ChatColor.WHITE.toString() + message);
+                } else {
+                    player.sendMessage(ChatColor.RED.toString() + amount + " coins" +
+                            ChatColor.WHITE + ChatColor.DARK_PURPLE.toString() + " | " + ChatColor.RESET
+                            + ChatColor.WHITE.toString() + message);
+                }
+            }
+        }
+
+        Runnable runnable = new Runnable() {
+            @Override
+            public void run() {
+                globalUserCollection.update(MongoUtils.getIgnoreCaseQuery("name", name),
+                        new BasicDBObject("$inc", new BasicDBObject("coins", amount)));
+            }
+        };
+
+        if (async) {
+            new Timer().schedule(new TimerTask() {
+                @Override
+                public void run() {
+                    runnable.run();
+                }
+            }, 0);
+        } else {
+            runnable.run();
+        }
+
+
+        WarzoneUser warzoneUser = getUser(name);
+        if (warzoneUser != null) {
+            warzoneUser.setCoins(warzoneUser.getCoins() + amount);
+        }
     }
 }

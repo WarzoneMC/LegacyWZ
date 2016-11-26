@@ -1,6 +1,5 @@
 package com.minehut.warzone.module.gameModules.blitz;
 
-import com.minehut.cloud.bukkit.util.MongoPlayer;
 import com.minehut.warzone.GameHandler;
 import com.minehut.warzone.event.CardinalDeathEvent;
 import com.minehut.warzone.event.MatchStartEvent;
@@ -9,6 +8,7 @@ import com.minehut.warzone.event.StatMatchEndEvent;
 import com.minehut.warzone.match.MatchState;
 import com.minehut.warzone.module.Module;
 import com.minehut.warzone.module.modules.team.TeamModule;
+import com.minehut.warzone.user.MongoPlayer;
 import com.minehut.warzone.util.ChatUtil;
 import com.minehut.warzone.util.Teams;
 import org.bukkit.Material;

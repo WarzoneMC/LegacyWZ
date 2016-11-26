@@ -1,6 +1,5 @@
 package com.minehut.warzone.user;
 
-import com.minehut.cloud.core.Cloud;
 import com.minehut.warzone.Warzone;
 import com.mongodb.BasicDBObject;
 import org.bukkit.Bukkit;
@@ -22,6 +21,8 @@ public class WarzoneUser {
     private String selectedKit = "";
     private String activeKit = "";
     private List<String> kits = new ArrayList<>();
+
+    private int coins = 0;
 
     //stats
     private int totalKills = 0;
@@ -152,4 +153,15 @@ public class WarzoneUser {
         this.activeKit = activeKit;
     }
 
+    public int getCoins() {
+        return coins;
+    }
+
+    public void setCoins(int coins) {
+        this.coins = coins;
+    }
+
+    public boolean hasEnoughCoins(int amount) {
+        return amount <= this.coins;
+    }
 }

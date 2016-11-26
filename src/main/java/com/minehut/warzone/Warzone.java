@@ -1,14 +1,16 @@
 package com.minehut.warzone;
 
-import com.minehut.cloud.bukkit.CloudBukkit;
-import com.minehut.cloud.bukkit.status.event.StatusUpdateEvent;
-import com.minehut.cloud.bukkit.subdata.SubDataModule;
 import com.minehut.warzone.chat.LocalizedChatMessage;
 import com.minehut.warzone.command.*;
 import com.minehut.warzone.module.modules.matchTimer.MatchTimer;
 import com.minehut.warzone.tabList.TabList;
 import com.minehut.warzone.util.DomUtil;
 import com.minehut.warzone.util.bossBar.BossBars;
+import com.mongodb.Bytes;
+import com.mongodb.DB;
+import com.mongodb.MongoClient;
+import com.mongodb.MongoClientURI;
+import com.mongodb.client.MongoDatabase;
 import com.sk89q.bukkit.util.CommandsManagerRegistration;
 import com.sk89q.minecraft.util.commands.ChatColor;
 import com.sk89q.minecraft.util.commands.CommandException;
@@ -55,22 +57,70 @@ public class Warzone extends JavaPlugin implements Listener {
 
     private TntTracker tntTracker;
 
+    private MongoClient mongo;
+    private DB db;
+
     public static LocaleHandler getLocaleHandler() {
         return localeHandler;
     }
 
-    public static Warzone getInstance() {
-        return instance;
+    @Override
+    public void onEnable() {
+        instance = this;
+
+        FileConfiguration config = getConfig();
+        config.options().copyDefaults(true);
+        saveConfig();
+
+        try {
+            localeHandler = new LocaleHandler(this);
+        } catch (IOException | JDOMException e) {
+            e.printStackTrace();
+            getLogger().severe("Failed to initialize because of invalid language files. Please make sure all language files in the plugin are present.");
+            setEnabled(false);
+            return;
+        }
+
+        this.mongo = new MongoClient(new MongoClientURI(config.getString("mongo.url")));
+        this.db = mongo.getDB("mchost");
+        this.db.addOption(Bytes.QUERYOPTION_NOTIMEOUT);
+
+        getDataFolder().mkdir();
+
+        userManager = new UserManager();
+        kitManager = new KitManager();
+
+        tntTracker = new TntTracker();
+
+//        CloudBukkit.getInstance().getChatFilter().setDoCheck(false);
+
+//        registerListener(new DamageListener());
+
+        deleteMatches();
+        setupCommands();
+
+        this.tabList = new TabList();
+        Bukkit.getPluginManager().registerEvents(tabList, this);
+        Bukkit.getPluginManager().registerEvents(new BossBars(), this);
+
+        try {
+            gameHandler = new GameHandler();
+        } catch (RotationLoadException e) {
+            e.printStackTrace();
+            getLogger().severe("Failed to initialize because of an invalid rotation configuration.");
+            setEnabled(false);
+            return;
+        }
+
+        if (config.getBoolean("resetSpawnProtection") && Bukkit.getServer().getSpawnRadius() != 0) {
+            Bukkit.getServer().setSpawnRadius(0);
+        }
+
+        this.getServer().getPluginManager().registerEvents(this, this);
     }
 
-    @EventHandler
-    public void onStatusUpdate(StatusUpdateEvent event) {
-        event.getDoc().put("map", this.getGameHandler().getMatch().getLoadedMap().getName());
-        event.getDoc().put("gamemode", this.getGameHandler().getMatch().getGameType().displayName);
-
-        event.getDoc().put("next", this.getGameHandler().getCycle().getMap().getName());
-
-        event.getDoc().put("time", MatchTimer.getTimeInSeconds());
+    public static Warzone getInstance() {
+        return instance;
     }
 
     @Override
@@ -153,57 +203,6 @@ public class Warzone extends JavaPlugin implements Listener {
         }
     }
 
-    @Override
-    public void onEnable() {
-        instance = this;
-        checkCraftVersion();
-        try {
-            localeHandler = new LocaleHandler(this);
-        } catch (IOException | JDOMException e) {
-            e.printStackTrace();
-            getLogger().severe("Failed to initialize because of invalid language files. Please make sure all language files in the plugin are present.");
-            setEnabled(false);
-            return;
-        }
-
-        getDataFolder().mkdir();
-
-        userManager = new UserManager();
-        kitManager = new KitManager();
-
-        tntTracker = new TntTracker();
-
-        CloudBukkit.getInstance().getChatFilter().setDoCheck(false);
-
-//        registerListener(new DamageListener());
-
-        FileConfiguration config = getConfig();
-        config.options().copyDefaults(true);
-        saveConfig();
-
-        deleteMatches();
-        setupCommands();
-
-        this.tabList = new TabList();
-        Bukkit.getPluginManager().registerEvents(tabList, this);
-        Bukkit.getPluginManager().registerEvents(new BossBars(), this);
-
-        try {
-            gameHandler = new GameHandler();
-        } catch (RotationLoadException e) {
-            e.printStackTrace();
-            getLogger().severe("Failed to initialize because of an invalid rotation configuration.");
-            setEnabled(false);
-            return;
-        }
-
-        if (config.getBoolean("resetSpawnProtection") && Bukkit.getServer().getSpawnRadius() != 0) {
-            Bukkit.getServer().setSpawnRadius(0);
-        }
-
-        this.getServer().getPluginManager().registerEvents(this, this);
-    }
-
     public static void registerListener(Listener listener) {
         instance.getServer().getPluginManager().registerEvents(listener, instance);
     }
@@ -231,5 +230,13 @@ public class Warzone extends JavaPlugin implements Listener {
 
     public TabList getTabList() {
         return tabList;
+    }
+
+    public MongoClient getMongo() {
+        return mongo;
+    }
+
+    public DB getDb() {
+        return db;
     }
 }
