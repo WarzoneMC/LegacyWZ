@@ -8,7 +8,7 @@ Just run `mvn clean install` inside of the directory to build the project. We us
 We follow Google's [Java Style Guide](http://google.github.io/styleguide/javaguide.html). All contributions should follow these guidelines. 
 
 ## Things to note
-1. Dev environments are currently not supported. I'l be adding an easy way to setup a test server soon.
+1. Dev environments are currently not supported. I'll be adding an easy way to setup a test server soon.
 
 ## About Warzone's Code
 Warzone originally started as a fork of [Cardinal](https://github.com/twizmwazin/CardinalPGM), a fantastic open source plugin. Minehut's team has since redesigned many core aspects of the plugin, including a conversion to JSON instead of XML and reworking the majority of the integral game-controlling modules. 
